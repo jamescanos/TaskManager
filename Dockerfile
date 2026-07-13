@@ -1,4 +1,4 @@
-# Etapa 1: Compilar el frontend con Vite
+# Etapa 1: Compilar frontend con Vite
 FROM node:20-alpine AS frontend
 WORKDIR /app
 COPY package*.json ./
@@ -12,8 +12,8 @@ WORKDIR /app
 COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Etapa 3: Servidor PHP de producción
-FROM php:8.2-fpm-alpine
+# Etapa 3: Servidor PHP de producción (¡cambiado a 8.4!)
+FROM php:8.4-fpm-alpine   # <--- aquí está el cambio
 
 # Instalar dependencias del sistema y soporte para PostgreSQL
 RUN apk add --no-cache nginx postgresql-dev
