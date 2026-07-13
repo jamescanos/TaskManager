@@ -16,7 +16,7 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Etapa 3: Servidor PHP de producción (¡PHP 8.4!)
-FROM php:8.4-fpm-alpine   # <--- asegúrate que sea 8.4
+FROM php:8.4-fpm-alpine
 
 # Instalar dependencias del sistema y soporte para PostgreSQL
 RUN apk add --no-cache nginx postgresql-dev
