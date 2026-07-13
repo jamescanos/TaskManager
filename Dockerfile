@@ -15,7 +15,7 @@ WORKDIR /app
 COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Etapa 3: Servidor PHP de producción (¡PHP 8.4!)
+# Etapa 3: Servidor PHP de producción (PHP 8.4)
 FROM php:8.4-fpm-alpine
 
 # Instalar dependencias del sistema y soporte para PostgreSQL
@@ -31,8 +31,13 @@ COPY --from=frontend /app/public/build ./public/build
 # Copiar vendor generado por Composer
 COPY --from=composer /app/vendor ./vendor
 
-# Permisos de escritura para Laravel
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# --- CORRECCIÓN DE PERMISOS ---
+# Crear el directorio de logs y el archivo laravel.log con los permisos correctos
+RUN mkdir -p storage/logs && \
+    touch storage/logs/laravel.log && \
+    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# ------------------------------
 
 # Configuración de Nginx
 COPY ./nginx.conf /etc/nginx/nginx.conf
