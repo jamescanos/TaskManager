@@ -1,3 +1,6 @@
+# Forzar reconstrucción limpia (cambia la fecha si quieres)
+ARG CACHE_BUST=20250320
+
 # Etapa 1: Compilar frontend con Vite
 FROM node:20-alpine AS frontend
 WORKDIR /app
@@ -12,8 +15,8 @@ WORKDIR /app
 COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Etapa 3: Servidor PHP de producción (¡cambiado a 8.4!)
-FROM php:8.4-fpm-alpine   # <--- aquí está el cambio
+# Etapa 3: Servidor PHP de producción (¡PHP 8.4!)
+FROM php:8.4-fpm-alpine   # <--- asegúrate que sea 8.4
 
 # Instalar dependencias del sistema y soporte para PostgreSQL
 RUN apk add --no-cache nginx postgresql-dev
